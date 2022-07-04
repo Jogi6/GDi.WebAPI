@@ -50,7 +50,7 @@ namespace GDi.WebAPI.Controllers
         //Update a vehicle
         [HttpDelete]
         [Route("{id:int}")]
-        public async Task<IActionResult> DeleteVehicle([FromRoute] int id)
+        public async Task<IActionResult> DeleteVehicleType([FromRoute] int id)
         {
             if (id == 1)
             {
