@@ -30,7 +30,8 @@ namespace GDi.WebAPI.Controllers
         [ActionName("GetVehicleLocation")]
         public async Task<IActionResult> GetVehicleLocation([FromRoute] int id)
         {
-            var vehicleLocation = await gdiDbContex.VehicleLocations.FirstOrDefaultAsync(x => x.VehicleLocationID == id);
+            var vehicleLocation = await gdiDbContex.VehicleLocations.FirstOrDefaultAsync(x => x.Vehicle.VehicleID == id);
+            vehicleLocation.Vehicle = await gdiDbContex.Vehicles.FirstOrDefaultAsync(x => x.VehicleID == vehicleLocation.VehicleID);
             if (vehicleLocation != null)
             {
                 return Ok(vehicleLocation);
