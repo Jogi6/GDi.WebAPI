@@ -20,6 +20,10 @@ namespace GDi.WebAPI.Controllers
         public async Task<IActionResult> GetAllVehicles()
         {
             var vehicles = await gdiDbContex.Vehicles.ToListAsync();
+            foreach (var vehicle in vehicles)
+            {
+                vehicle.VehicleType = await gdiDbContex.VehicleTypes.FirstOrDefaultAsync(x => x.VehicleTypeID == vehicle.VehicleTypeID);
+            }
             return Ok(vehicles);
         }
 

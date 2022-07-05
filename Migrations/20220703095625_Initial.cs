@@ -80,6 +80,21 @@ namespace GDi.WebAPI.Migrations
             table: "VehicleTypes",
             column: "TypeOfVehicle",
             value: "Nedodjeljeno");
+
+            migrationBuilder.InsertData(
+            table: "VehicleTypes",
+            column: "TypeOfVehicle",
+            value: "Automobil");
+
+            migrationBuilder.InsertData(
+            table: "VehicleTypes",
+            column: "TypeOfVehicle",
+            value: "Motor");
+
+            migrationBuilder.InsertData(
+            table: "VehicleTypes",
+            column: "TypeOfVehicle",
+            value: "Kombi");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
