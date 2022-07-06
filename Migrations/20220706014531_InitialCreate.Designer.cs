@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GDi.WebAPI.Migrations
 {
     [DbContext(typeof(GDiDbContext))]
-    [Migration("20220703095625_Initial")]
-    partial class Initial
+    [Migration("20220706014531_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,10 +64,12 @@ namespace GDi.WebAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleLocationID"), 1L, 1);
 
                     b.Property<decimal>("Latitude")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 5)
+                        .HasColumnType("decimal(18,5)");
 
                     b.Property<decimal>("Longitude")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 5)
+                        .HasColumnType("decimal(18,5)");
 
                     b.Property<int>("VehicleID")
                         .HasColumnType("int");

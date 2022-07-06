@@ -62,10 +62,12 @@ namespace GDi.WebAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleLocationID"), 1L, 1);
 
                     b.Property<decimal>("Latitude")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 5)
+                        .HasColumnType("decimal(18,5)");
 
                     b.Property<decimal>("Longitude")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 5)
+                        .HasColumnType("decimal(18,5)");
 
                     b.Property<int>("VehicleID")
                         .HasColumnType("int");

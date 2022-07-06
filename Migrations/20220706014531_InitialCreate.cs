@@ -4,7 +4,7 @@
 
 namespace GDi.WebAPI.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,8 +19,7 @@ namespace GDi.WebAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_VehicleTypes", x => x.VehicleTypeID);
-                } 
-                );
+                });
 
             migrationBuilder.CreateTable(
                 name: "Vehicles",
@@ -51,8 +50,8 @@ namespace GDi.WebAPI.Migrations
                 {
                     VehicleLocationID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Longitude = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Latitude = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Longitude = table.Column<decimal>(type: "decimal(18,5)", precision: 18, scale: 5, nullable: false),
+                    Latitude = table.Column<decimal>(type: "decimal(18,5)", precision: 18, scale: 5, nullable: false),
                     VehicleID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

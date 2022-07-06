@@ -44,13 +44,22 @@ namespace GDi.WebAPI.Controllers
         public async Task<IActionResult> AddVehicleLocation([FromBody] VehicleLocation vehicleLocation)
         {
             var vehicle = await gdiDbContex.Vehicles.FirstOrDefaultAsync(x => x.VehicleID == vehicleLocation.VehicleID);
-            var vehicleType = await gdiDbContex.VehicleTypes.FirstOrDefaultAsync(x => x.VehicleTypeID == vehicle.VehicleTypeID);
-            vehicleLocation.Vehicle = vehicle;
-            vehicleLocation.Vehicle.VehicleType = vehicleType;
-            await gdiDbContex.VehicleLocations.AddAsync(vehicleLocation);
-            await gdiDbContex.SaveChangesAsync();
+            var existinVehicleLocation = await gdiDbContex.VehicleLocations.FirstOrDefaultAsync(x => x.VehicleID == vehicle.VehicleID);
+            if (existinVehicleLocation == null)
+            {
+                var vehicleType = await gdiDbContex.VehicleTypes.FirstOrDefaultAsync(x => x.VehicleTypeID == vehicle.VehicleTypeID);
+                vehicleLocation.Vehicle = vehicle;
+                vehicleLocation.Vehicle.VehicleType = vehicleType;
+                await gdiDbContex.VehicleLocations.AddAsync(vehicleLocation);
+                await gdiDbContex.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetVehicleLocation), new { id = vehicleLocation.VehicleID }, vehicleLocation);
+                return CreatedAtAction(nameof(GetVehicleLocation), new { id = vehicleLocation.VehicleID }, vehicleLocation);
+            }
+            else
+            {
+                return NotFound("Location already saved");
+            }
+            
         }
 
         //Delete vehicle location
@@ -67,6 +76,27 @@ namespace GDi.WebAPI.Controllers
             }
 
             return NotFound("Vehicle location doesn't exist!");
+        }
+
+        //Update vehicle location
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<IActionResult> UpdateVehicleLocation([FromRoute] int id, [FromBody] VehicleLocation vehicleLocation)
+        {
+            var existingVehicleLocation = await gdiDbContex.VehicleLocations.FirstOrDefaultAsync(x => x.VehicleLocationID == id);
+            if (existingVehicleLocation != null)
+            {
+                existingVehicleLocation.Longitude = vehicleLocation.Longitude;
+                existingVehicleLocation.Latitude = vehicleLocation.Latitude;
+                existingVehicleLocation.VehicleLocationID = vehicleLocation.VehicleLocationID;
+                existingVehicleLocation.Vehicle = await gdiDbContex.Vehicles.FirstOrDefaultAsync(x => x.VehicleID == existingVehicleLocation.VehicleID);
+                existingVehicleLocation.Vehicle.VehicleType = await gdiDbContex.VehicleTypes.FirstOrDefaultAsync(x => x.VehicleTypeID == existingVehicleLocation.Vehicle.VehicleTypeID);
+                existingVehicleLocation.VehicleID = vehicleLocation.VehicleID;
+                await gdiDbContex.SaveChangesAsync();
+                return Ok(existingVehicleLocation);
+            }
+
+            return NotFound("Vehicle doesn't exist!");
         }
 
     }
