@@ -89,9 +89,9 @@ namespace GDi.WebAPI.Controllers
                 existingVehicleLocation.Longitude = vehicleLocation.Longitude;
                 existingVehicleLocation.Latitude = vehicleLocation.Latitude;
                 existingVehicleLocation.VehicleLocationID = vehicleLocation.VehicleLocationID;
+                existingVehicleLocation.VehicleID = vehicleLocation.VehicleID;
                 existingVehicleLocation.Vehicle = await gdiDbContex.Vehicles.FirstOrDefaultAsync(x => x.VehicleID == existingVehicleLocation.VehicleID);
                 existingVehicleLocation.Vehicle.VehicleType = await gdiDbContex.VehicleTypes.FirstOrDefaultAsync(x => x.VehicleTypeID == existingVehicleLocation.Vehicle.VehicleTypeID);
-                existingVehicleLocation.VehicleID = vehicleLocation.VehicleID;
                 await gdiDbContex.SaveChangesAsync();
                 return Ok(existingVehicleLocation);
             }
